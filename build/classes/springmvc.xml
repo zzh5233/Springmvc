@@ -11,12 +11,21 @@
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 	
+	<!-- 该注解会在请求没有对应的@RequestMapping时，将服务器交给默认的Servlet来处理   可以用来处理静态资源 
+		 也需要配置mvc:annotation-driven
+	<mvc:default-servlet-handler/> -->
+	
 	<!-- 配置对静态资源的解析 
 	包括:js、css、img、..
 	-->
 	<mvc:resources location="/js/" mapping="/js/**"/>
 	<mvc:resources location="/img/" mapping="/img/**"/>
 	
+	<!-- 加载国际化资源文件 	-->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="i18n"></property>
+	</bean>
+
 	<!-- 配置扫描controller -->
 	<context:component-scan base-package="com.itheima.controller"></context:component-scan>
 
@@ -32,7 +41,7 @@
 	<mvc:annotation-driven conversion-service="conversionService"
 	validator="validator"></mvc:annotation-driven>
 
-	<!-- 自定义参数绑定 -->
+	<!-- 自定义参数绑定  这个bean有两个功能,既可以实现格式化(在属性上直接使用注解)，又可以实现类型转换-->
 	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
 		<!-- 定义转换器 -->
 		<property name="converters">
@@ -48,11 +57,11 @@
 		<!-- hibernate校验器 -->
 		<property name="providerClass" value="org.hibernate.validator.HibernateValidator"></property>
 		<!-- 指定校验使用的而资源文件，在文件中配置校验错误信息，如果不指定，默认使用classpath下的ValidationMessages.properties -->
-		<property name="validationMessageSource" ref="messageSource"></property>
+		<property name="validationMessageSource" ref="messageSource2"></property>
 	</bean>
 	
 	<!-- 校验错误信息配置文件 -->
-	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+	<bean id="messageSource2" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<!-- 资源文件名 -->
 		<property name="basenames">
 			<set>
@@ -71,38 +80,58 @@
 		<property name="suffix" value=".jsp"></property>	
 	</bean>
 	
-	<!-- 配置全局异常处理器
-	只要实现HandlerExceptionResolver接口的就是全局异常处理器
-	 -->
-	<bean class="com.itheima.exception.CustomExceptionResolver"></bean>
-	
 	<!-- 文件上传 -->
-	<bean id="multipartResolver" 
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxUploadSize">
 			<value>5242880</value>
 		</property>
 	</bean>
 	
-	<!-- 拦截器 -->
-	<mvc:interceptors>
+	
+	<!-- 拦截器 
+	<mvc:interceptors> -->
 		<!-- 多个拦截器，按照顺序执行 -->
-		<!-- 登录认证拦截器 -->
+		
+		<!-- 登录认证拦截器 
+		<mvc:interceptor> -->
+			<!-- /** 表示所有url包括子url路径
+			<mvc:mapping path="/**"/>  
+			<bean class="com.itheima.interceptor.LoginInterceptor"></bean> -->
+			<!-- 指定不拦截的路径  最终结果两者取交集
+			<mvc:exclude-mapping path=""/>  
+		</mvc:interceptor> -->
+		
+		<!-- /** 表示所有url包括子url路径
 		<mvc:interceptor>
-			<!-- /** 表示所有url包括子url路径 -->
-			<mvc:mapping path="/**"/>
-			<bean class="com.itheima.interceptor.LoginInterceptor"></bean>
-		</mvc:interceptor>
-		<mvc:interceptor>
-			<!-- /** 表示所有url包括子url路径 -->
 			<mvc:mapping path="/**"/>
 			<bean class="com.itheima.interceptor.HandlerInterceptor1"></bean>
-		</mvc:interceptor>
+		</mvc:interceptor> --> 
+		
+		<!-- /** 表示所有url包括子url路径
 		<mvc:interceptor>
-			<!-- /** 表示所有url包括子url路径 -->
 			<mvc:mapping path="/**"/>
 			<bean class="com.itheima.interceptor.HandlerInterceptor2"></bean>
-		</mvc:interceptor>
-	</mvc:interceptors>
+		</mvc:interceptor>  
+		
+	</mvc:interceptors> --> 
+	
+	<!-- 配置全局异常处理器
+		只要实现HandlerExceptionResolver接口的就是全局异常处理器  -->
+	<bean class="com.itheima.exception.CustomExceptionResolver"></bean> 	
+	
+	<!-- SimpleMappingExceptionResolver:以配置的方式来处理异常 
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">-->
+		<!-- 如果发生了异常，异常对象会被保存在  exceptionAttribute的value值中，并且会被放在request域中，默认值是exception
+		<property name="exceptionAttribute" value="ex"></property>
+		<property name="exceptionMappings">
+			<props>  -->
+				<!-- 相当于catch(ArithmeticException ex){跳转到error页面
+				<prop key="java.lang.ArithmeticException">error</prop>
+				<prop key="java.lang.NullPointerException">error</prop>
+				<prop key="java.lang.ArrayIndexOutOfBoundsException">error</prop>
+			</props>
+		</property>
+	</bean> } -->
+	
 	
 </beans>

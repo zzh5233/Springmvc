@@ -13,7 +13,7 @@ function requestJson(){
 	
 	$.ajax({
 		type:'post',
-		url:'${pageContext.request.contextPath }/requestJson.action',
+		url:'${pageContext.request.contextPath }/requestJson',
 		contentType:'application/json;charset=utf-8',
 		//数据格式为json串，商品信息
 		data:'{"name":"手机","price":9999}',
@@ -28,7 +28,7 @@ function responseJson(){
 	
 	$.ajax({
 		type:'post',
-		url:'${pageContext.request.contextPath }/responseJson.action',
+		url:'${pageContext.request.contextPath }/responseJson',
 		//请求时key/value这里不需要指定cententType,默认就是key/value
 		//contentType:'application/json;chartset=utf-8',
 		//数据格式为key/value

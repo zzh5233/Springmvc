@@ -23,7 +23,10 @@
     <!-- 将sqlSessionFactory交给spring来管理 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
     	<property name="dataSource" ref="dataSource"></property>
-    	<property name="configLocation" value="classpath:mybatis/SqlMapConfig.xml"></property>
+    	<!-- mapper和xml写在一个包中，mapperLocations配置可以省去
+    	<property name="mapperLocations" value="classpath:com/itheima/mapper/*.xml"></property>  -->
+    	<!-- 此处可加载原SqlMapConfig.xml文件，也可以省去
+    	<property name="configLocation" value="classpath:mybatis/SqlMapConfig.xml"></property>  -->
     </bean>
     
     

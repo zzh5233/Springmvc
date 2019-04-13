@@ -7,6 +7,10 @@
 <title>错误页面</title>
 </head>
 <body>
-${message}
+	error-----<br>
+	
+	requestScope:${requestScope.error}<br>
+	requestScope:${requestScope.ex }<br>
+	message:${message}
 </body>
 </html>

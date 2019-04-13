@@ -31,7 +31,7 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-aop-4.3.2.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-aspects-4.3.2.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-beans-4.3.2.RELEASE.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-context-4.3.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-context-4.3.2.RELEASE.jar" sourcepath="E:/Codes/常用jars/source/spring-framework-4.3.2.RELEASE/libs/spring-context-4.3.2.RELEASE-sources.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-context-support-4.3.2.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-core-4.3.2.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-expression-4.3.2.RELEASE.jar"/>
